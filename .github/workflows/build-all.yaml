@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         platform: [win, linux]
-        arch: [arm64, amd64]
+        arch: [arm64, x64]
     runs-on: ubuntu-latest
     steps:
     - name: Install dependencies
