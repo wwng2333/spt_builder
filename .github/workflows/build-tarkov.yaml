@@ -21,11 +21,16 @@ jobs:
     - name: Clone external repository
       run: |
         git clone https://dev.sp-tarkov.com/SPT/Server.git
-    - name: Execute git-lfs pull
+    - name: Checkout code
       run: |
         cd Server
+        git checkout 2ac7813ca1f313a7d1cbcba807266b915b0523e4
         git-lfs pull
-    - name: Execute npm
+        cd project/src/servers/
+        rm HttpServer.ts
+        wget https://raw.githubusercontent.com/wwng2333/spt_builder/main/HttpServer.ts
+        cd ../..
+    - name: Execute npm and build
       run: |
         cd Server/project
         pnpm i
