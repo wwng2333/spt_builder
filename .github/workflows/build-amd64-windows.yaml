@@ -34,7 +34,7 @@ jobs:
       run: |
         cd Server/project
         pnpm i
-        npm run build:release -- --arch=x64 --platform=linux
+        npm run build:release -- --arch=x64 --platform=win
     - name: Uplaod files
       uses: actions/upload-artifact@v4
       with:
