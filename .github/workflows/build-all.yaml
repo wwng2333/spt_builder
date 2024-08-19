@@ -4,6 +4,10 @@ on:
     types: [created]
 jobs:
   build:
+    strategy:
+      matrix:
+        platform: [win, linux]
+        arch: [arm64, amd64]
     runs-on: ubuntu-latest
     steps:
     - name: Install dependencies
@@ -34,7 +38,7 @@ jobs:
       run: |
         cd Server/project
         pnpm i
-        npm run build:release -- --arch=x64 --platform=win
+        pnpm run build:release -- --arch=${{ matrix.arch }} --platform=${{ matrix.platform }}
     - name: Uplaod files
       uses: actions/upload-artifact@v4
       with:
@@ -46,4 +50,4 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: Server/project/build/SPT.Server.exe
         tag: ${{ github.ref }}
-        asset_name: SPT.Server_windows-amd64.exe
+        asset_name: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
