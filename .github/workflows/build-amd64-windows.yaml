@@ -46,3 +46,4 @@ jobs:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: Server/project/build/SPT.Server.exe
         tag: ${{ github.ref }}
+        asset_name: SPT.Server_windows-amd64.exe
