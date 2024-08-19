@@ -33,7 +33,7 @@ jobs:
     - name: Checkout code
       run: |
         cd Server
-        git checkout 2ac7813ca1f313a7d1cbcba807266b915b0523e4
+        git checkout a0c79ac6bc0e69663b5a749c9f8d515a74a8ccfa
         git-lfs pull
         cd project/src/servers/
         rm HttpServer.ts
