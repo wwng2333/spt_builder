@@ -5,12 +5,14 @@ on:
 jobs:
   build:
     strategy:
-    - matrix.platform: win
-      matrix.arch: x64
-    - matrix.platform: linux
-      matrix.arch: x64
-    - matrix.platform: linux
-      matrix.arch: arm64
+      matrix:
+        include:
+        - platform: win
+          arch: x64
+        - platform: linux
+          arch: x64
+        - platform: linux
+          arch: arm64
     runs-on: ubuntu-latest
     steps:
     - name: Install dependencies
