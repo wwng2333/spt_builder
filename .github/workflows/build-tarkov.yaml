@@ -1,0 +1,37 @@
+name: Setup environment and build on release
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git git-lfs curl
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.11.1'
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+    - name: Clone external repository
+      run: |
+        git clone https://dev.sp-tarkov.com/SPT/Server.git
+    - name: Execute git-lfs pull
+      run: |
+        cd Server
+        git-lfs pull
+    - name: Execute npm
+      run: |
+        cd Server/project
+        pnpm i
+        npm run build:release -- --arch=x64 --platform=linux
+    - name: Uplaod files
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-linux
+        path: Server/project/build/SPT.Server.exe
