@@ -1,0 +1,48 @@
+name: Setup environment and build on release
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git git-lfs curl
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.11.1'
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9
+    - name: Clone external repository
+      run: |
+        git clone https://dev.sp-tarkov.com/SPT/Server.git
+    - name: Checkout code
+      run: |
+        cd Server
+        git checkout 2ac7813ca1f313a7d1cbcba807266b915b0523e4
+        git-lfs pull
+        cd project/src/servers/
+        rm HttpServer.ts
+        wget https://raw.githubusercontent.com/wwng2333/spt_builder/main/HttpServer.ts
+        cd ../..
+    - name: Execute npm and build
+      run: |
+        cd Server/project
+        pnpm i
+        npm run build:release -- --arch=arm64 --platform=linux
+    - name: Uplaod files
+      uses: actions/upload-artifact@v4
+      with:
+        name: SPT.Server
+        path: Server/project/build/SPT.Server.exe
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: Server/project/build/SPT.Server.exe
+        tag: ${{ github.ref }}
