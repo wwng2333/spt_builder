@@ -47,7 +47,7 @@ jobs:
     - name: Uplaod files
       uses: actions/upload-artifact@v4
       with:
-        name: SPT.Server
+        name: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
         path: Server/project/build/SPT.Server.exe
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
