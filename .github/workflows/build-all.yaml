@@ -5,9 +5,12 @@ on:
 jobs:
   build:
     strategy:
-      matrix:
-        platform: [win, linux]
-        arch: [arm64, x64]
+    - matrix.platform: win
+      matrix.arch: x64
+    - matrix.platform: linux
+      matrix.arch: x64
+    - matrix.platform: linux
+      matrix.arch: arm64
     runs-on: ubuntu-latest
     steps:
     - name: Install dependencies
@@ -38,7 +41,7 @@ jobs:
       run: |
         cd Server/project
         pnpm i
-        npm run build:release -- --arch=${{ matrix.arch }} --platform=${{ matrix.platform }}
+        pnpm run build:release -- --arch=${{ matrix.arch }} --platform=${{ matrix.platform }}
     - name: Uplaod files
       uses: actions/upload-artifact@v4
       with:
