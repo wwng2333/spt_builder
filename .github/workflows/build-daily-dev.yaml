@@ -51,3 +51,14 @@ jobs:
       with:
         name: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
         path: Server/project/build/SPT.Server.exe
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+    - name: Upload binaries to release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build ${{ steps.date.outputs.date }}"
+        files: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
