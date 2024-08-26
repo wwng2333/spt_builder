@@ -25,6 +25,8 @@ jobs:
       uses: pnpm/action-setup@v4
       with:
         version: 9
+    - name: Setup 7z
+      uses: milliewalky/setup-7-zip@v1
     - name: Clone external repository
       run: |
         git clone https://dev.sp-tarkov.com/SPT/Server.git
@@ -42,13 +44,13 @@ jobs:
         cd Server/project
         pnpm i
         npm run build:release -- --arch=${{ matrix.arch }} --platform=${{ matrix.platform }}
+    - name: Packaging...
+      run: 7z a SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}.7z Server/project/build/*
     - name: Uplaod files
       uses: actions/upload-artifact@v4
       with:
-        name: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
-        path: Server/project/build/SPT.Server.exe
-    - name: Packaging...
-      run: tar czf SPT_Server-${{ matrix.arch }}-${{ matrix.platform }}.tgz Server/project/build/*
+        name: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}.7z
+        path: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}.7z
     - name: Get current date
       id: date
       run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_STATE
@@ -58,5 +60,5 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         automatic_release_tag: "latest"
         prerelease: true
-        title: "Development Build ${{ steps.date.outputs.date }}"
-        files: SPT_Server-${{ matrix.arch }}-${{ matrix.platform }}.tgz
+        title: "Development Build ${{ env.date }}"
+        files: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}.7z
