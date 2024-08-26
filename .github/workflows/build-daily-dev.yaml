@@ -51,10 +51,3 @@ jobs:
       with:
         name: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
         path: Server/project/build/SPT.Server.exe
-    - name: Upload binaries to release
-      uses: svenstaro/upload-release-action@v2
-      with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: Server/project/build/SPT.Server.exe
-        tag: ${{ github.ref }}
-        asset_name: SPT_Server_${{ matrix.platform }}-${{ matrix.arch }}
