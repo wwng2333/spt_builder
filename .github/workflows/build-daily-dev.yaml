@@ -61,4 +61,4 @@ jobs:
         automatic_release_tag: "latest"
         prerelease: true
         title: "Development Build ${{ steps.date.outputs.date }}"
-        files: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
+        files: Server/project/build/SPT.Server.exe
