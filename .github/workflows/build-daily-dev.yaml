@@ -51,7 +51,7 @@ jobs:
       run: tar czf SPT_Server-${{ matrix.arch }}-${{ matrix.platform }}.tgz Server/project/build/*
     - name: Get current date
       id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_STATE
     - name: Upload binaries to release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
