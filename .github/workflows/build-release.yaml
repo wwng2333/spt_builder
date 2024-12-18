@@ -29,11 +29,11 @@ jobs:
         version: 9
     - name: Clone external repository
       run: |
-        git clone https://dev.sp-tarkov.com/SPT/Server.git
+        git clone https://github.com/sp-tarkov/server
     - name: Checkout code
       run: |
         cd Server
-        git checkout a0c79ac6bc0e69663b5a749c9f8d515a74a8ccfa
+        git checkout 42b3d7abc3e15c78001c6d672f34b24de9d5fb2d
         git-lfs pull
         cd project/src/servers/
         rm HttpServer.ts
@@ -42,7 +42,7 @@ jobs:
     - name: Execute npm and build
       run: |
         cd Server/project
-        pnpm i
+        npm i
         npm run build:release -- --arch=${{ matrix.arch }} --platform=${{ matrix.platform }}
     - name: Uplaod files
       uses: actions/upload-artifact@v4
