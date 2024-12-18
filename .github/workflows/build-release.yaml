@@ -32,7 +32,7 @@ jobs:
         git clone https://github.com/sp-tarkov/server
     - name: Checkout code
       run: |
-        cd Server
+        cd server
         git checkout 42b3d7abc3e15c78001c6d672f34b24de9d5fb2d
         git-lfs pull
         cd project/src/servers/
@@ -41,7 +41,7 @@ jobs:
         cd ../..
     - name: Execute npm and build
       run: |
-        cd Server/project
+        cd server/project
         npm i
         npm run build:release -- --arch=${{ matrix.arch }} --platform=${{ matrix.platform }}
     - name: Uplaod files
