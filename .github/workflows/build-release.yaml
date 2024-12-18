@@ -15,18 +15,10 @@ jobs:
           arch: arm64
     runs-on: ubuntu-latest
     steps:
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git git-lfs curl
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.11.1'
-    - name: Setup pnpm
-      uses: pnpm/action-setup@v4
-      with:
-        version: 9
     - name: Clone external repository
       run: |
         git clone https://github.com/sp-tarkov/server
@@ -34,7 +26,6 @@ jobs:
       run: |
         cd server
         git checkout 42b3d7abc3e15c78001c6d672f34b24de9d5fb2d
-        git-lfs pull
         cd project/src/servers/
         rm HttpServer.ts
         wget https://raw.githubusercontent.com/wwng2333/spt_builder/main/HttpServer.ts
@@ -48,11 +39,11 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
-        path: Server/project/build/SPT.Server.exe
+        path: server/project/build/SPT.Server.exe
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: Server/project/build/SPT.Server.exe
+        file: server/project/build/SPT.Server.exe
         tag: ${{ github.ref }}
         asset_name: SPT.Server_${{ matrix.platform }}-${{ matrix.arch }}
