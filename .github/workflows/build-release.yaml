@@ -18,14 +18,14 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20.11.1'
+        node-version: '22.12.0'
     - name: Clone external repository
       run: |
         git clone https://github.com/sp-tarkov/server
     - name: Checkout code
       run: |
         cd server
-        git checkout 42b3d7abc3e15c78001c6d672f34b24de9d5fb2d
+        git checkout 7a9a346bb2a08bffb965150784ca7869741804b1
         cd project/src/servers/
         rm HttpServer.ts
         wget https://raw.githubusercontent.com/wwng2333/spt_builder/main/HttpServer.ts
